@@ -9,7 +9,7 @@ def load_texture_pair(filename):
         arcade.load_texture(filename, flipped_horizontally=True)
     ]
 
-class Lumine(arcade.Sprite):
+class Slimes(arcade.Sprite):
     def __init__(self):
         super().__init__()
         self.character_face_direction = RIGHT_FACING
@@ -17,19 +17,15 @@ class Lumine(arcade.Sprite):
         self.cur_texture = 0
         self.scale = CHARACTER_SCALING
 
-        self.jumping = False
+        main_path = "sprites/slimes/waterSlime"
 
-        main_path = "sprites/lumine1/lumine"
+        self.idle_texture_pair = load_texture_pair(f"{main_path}1.png")
 
-        self.idle_texture_pair = load_texture_pair(f"{main_path}_front.png")
-        self.jump_texture_pair = load_texture_pair(f"{main_path}_jump.png")
-        self.fall_texture_pair = load_texture_pair(f"{main_path}_front.png")
-
-        self.walk_textures = []
-        texture = load_texture_pair(f"{main_path}_walk0.png")
-        self.walk_textures.append(texture)
-        texture = load_texture_pair(f"{main_path}_walk1.png")
-        self.walk_textures.append(texture)
+        self.slide_textures = []
+        texture = load_texture_pair(f"{main_path}1.png")
+        self.slide_textures.append(texture)
+        texture = load_texture_pair(f"{main_path}1.png")
+        self.slide_textures.append(texture)
 
         self.texture = self.idle_texture_pair[0]
 
@@ -42,19 +38,12 @@ class Lumine(arcade.Sprite):
         elif self.change_x > 0 and self.character_face_direction == LEFT_FACING:
             self.character_face_direction = RIGHT_FACING
 
-        if self.change_y > 0:
-            self.texture = self.jump_texture_pair[self.character_face_direction]
-            return
-        elif self.change_y < 0:
-            self.texture = self.fall_texture_pair[self.character_face_direction]
-            return
-
         if self.change_x == 0:
             self.texture = self.idle_texture_pair[self.character_face_direction]
             return
 
-        #walking
+        #sliding
         self.cur_texture += 1
         if self.cur_texture > 7:
             self.cur_texture = 0
-        self.texture = self.walk_textures[self.cur_texture // 4][self.character_face_direction]
+        self.texture = self.slide_textures[self.cur_texture // 4][self.character_face_direction]
