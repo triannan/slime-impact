@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.5" tiledversion="1.7.0" orientation="orthogonal" renderorder="right-down" width="25" height="20" tilewidth="128" tileheight="128" infinite="0" backgroundcolor="#b1dbef" nextlayerid="3" nextobjectid="1">
+ <tileset firstgid="1" name="myTiles" tilewidth="128" tileheight="128" tilecount="23" columns="0">
+  <grid orientation="orthogonal" width="1" height="1"/>
+  <tile id="0">
+   <image width="128" height="128" source="sprites/blocks/dirt.png"/>
+  </tile>
+  <tile id="1">
+   <image width="128" height="128" source="sprites/blocks/grass.png"/>
+  </tile>
+  <tile id="2">
+   <image width="128" height="128" source="sprites/blocks/grassCliffLeft.png"/>
+  </tile>
+  <tile id="3">
+   <image width="128" height="128" source="sprites/blocks/grassCliffRight.png"/>
+  </tile>
+  <tile id="4">
+   <image width="128" height="128" source="sprites/blocks/grassCornerLeft.png"/>
+  </tile>
+  <tile id="5">
+   <image width="128" height="128" source="sprites/blocks/grassCornerRight.png"/>
+  </tile>
+  <tile id="6">
+   <image width="128" height="128" source="sprites/blocks/grassHalf.png"/>
+  </tile>
+  <tile id="7">
+   <image width="128" height="128" source="sprites/blocks/grassHalfLeft.png"/>
+  </tile>
+  <tile id="8">
+   <image width="128" height="128" source="sprites/blocks/grassHalfMid.png"/>
+  </tile>
+  <tile id="9">
+   <image width="128" height="128" source="sprites/blocks/grassHalfRight.png"/>
+  </tile>
+  <tile id="10">
+   <image width="128" height="128" source="sprites/blocks/grassHillLeft.png"/>
+  </tile>
+  <tile id="11">
+   <image width="128" height="128" source="sprites/blocks/grassHillLeftMid.png"/>
+  </tile>
+  <tile id="12">
+   <image width="128" height="128" source="sprites/blocks/grassHillRight.png"/>
+  </tile>
+  <tile id="13">
+   <image width="128" height="128" source="sprites/blocks/grassHillRightMid.png"/>
+  </tile>
+  <tile id="14">
+   <image width="128" height="128" source="sprites/blocks/grassLeft.png"/>
+  </tile>
+  <tile id="15">
+   <image width="128" height="128" source="sprites/blocks/grassMid.png"/>
+  </tile>
+  <tile id="16">
+   <image width="128" height="128" source="sprites/blocks/grassRight.png"/>
+  </tile>
+  <tile id="17">
+   <image width="128" height="128" source="sprites/items/chest.png"/>
+  </tile>
+  <tile id="18">
+   <image width="128" height="128" source="sprites/items/crate.png"/>
+  </tile>
+  <tile id="19">
+   <image width="128" height="128" source="sprites/items/moraBig.png"/>
+  </tile>
+  <tile id="20">
+   <image width="128" height="128" source="sprites/items/moraSmall.png"/>
+  </tile>
+  <tile id="21">
+   <image width="128" height="128" source="sprites/items/primogemLarge.png"/>
+  </tile>
+  <tile id="22">
+   <image width="128" height="128" source="sprites/items/primogemSmall.png"/>
+  </tile>
+ </tileset>
+ <layer id="1" name="platforms" width="25" height="20">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFowA74ABiTiTMNbDOwQqE6GAHejgM5vCgBoD5dyj5D+TmoeReYsBQyH8DAYZi+gQBfiAWgGJBKpiBjkFmAgC/3QG0
+  </data>
+ </layer>
+ <layer id="2" name="coins" width="25" height="20">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFICBKJ/NJsUcUCRNrPi4+OhAjwR2k2DsKaA9Gw3zggSgWPApGAToQQ8L0AACZXgGU
+  </data>
+ </layer>
+</map>
