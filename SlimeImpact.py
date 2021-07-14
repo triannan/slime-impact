@@ -78,25 +78,26 @@ class SlimeImpact(arcade.View):
         self.chest_list = arcade.SpriteList()
         self.slime_list = arcade.SpriteList()
 
-        img = "sprites/lumine1/lumine_front.png"
         self.player_sprite = Lumine()
         self.player_sprite.center_x = PLAYER_START_X
         self.player_sprite.center_y = PLAYER_START_Y
         self.player_list.append(self.player_sprite)
 
+        self.slime_sprite = Slimes()
+        self.slime_sprite.center_x = 1000
+        self.slime_sprite.center_y = 380
+        self.slime_sprite.change_x = 2
+        self.slime_list.append(self.slime_sprite)
+
         map_name = f"maps/map_level_{level}.tmx"
         platforms_layer_name = 'platforms'
         coins_layer_name = 'coins'
-        slimes_layer_name = 'slimes'
+        #slimes_layer_name = 'slimes'
 
         my_map = arcade.tilemap.read_tmx(map_name)
 
-        self.slime_list = arcade.tilemap.process_layer(my_map, slimes_layer_name, TILE_SCALING)
-        for sprite in self.slime_list:
-            self.wall_list.append(sprite)
-
         self.end_of_map = my_map.map_size.width * GRID_PIXEL_SIZE
-
+        #self.slime_list = arcade.tilemap.process_layer(my_map, slimes_layer_name, TILE_SCALING)
         self.wall_list = arcade.tilemap.process_layer(map_object=my_map, layer_name=platforms_layer_name, scaling=TILE_SCALING, use_spatial_hash=True)
         self.coin_list = arcade.tilemap.process_layer(my_map, coins_layer_name, TILE_SCALING)
 
@@ -156,6 +157,7 @@ class SlimeImpact(arcade.View):
     
     def on_update(self, delta_time):
         self.physics_engine.update()
+        self.slime_list.update_animation()
 
         if not self.game_over:
             if self.physics_engine.can_jump():
