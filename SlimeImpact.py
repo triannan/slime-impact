@@ -51,8 +51,10 @@ class SlimeImpact(arcade.View):
         self.up_pressed = False
         self.down_pressed = False
         self.jump_needs_reset = False
+        self.background = None
 
-        self.coin_list = None
+        self.mora_list = None
+        self.primos_list = None
         self.wall_list = None
         self.player_list = None
         self.chest_list = None
@@ -67,16 +69,24 @@ class SlimeImpact(arcade.View):
         self.view_left = 0
         self.end_of_map = 0
         self.level = 1
+        self.primogems = 0
+        self.moras = 0
+        
+        arcade.set_background_color(arcade.csscolor.ALICE_BLUE)
 
     def setup(self, level):
         self.view_bottom = 0
         self.view_left = 0
+        self.primogems = 0
 
         self.player_list = arcade.SpriteList()
         self.wall_list = arcade.SpriteList()
-        self.coin_list = arcade.SpriteList()
+        self.mora_list = arcade.SpriteList()
+        self.primos_list = arcade.SpriteList()
         self.chest_list = arcade.SpriteList()
         self.slime_list = arcade.SpriteList()
+
+        self.background = arcade.load_texture("bg.png")
 
         self.player_sprite = Lumine()
         self.player_sprite.center_x = PLAYER_START_X
@@ -84,23 +94,23 @@ class SlimeImpact(arcade.View):
         self.player_list.append(self.player_sprite)
 
         self.slime_sprite = Slimes()
-        self.slime_sprite.center_x = 1000
-        self.slime_sprite.center_y = 380
-        self.slime_sprite.change_x = 2
-        self.slime_list.append(self.slime_sprite)
 
         map_name = f"maps/map_level_{level}.tmx"
         platforms_layer_name = 'platforms'
-        coins_layer_name = 'coins'
-        #slimes_layer_name = 'slimes'
-
+        mora_layer_name = 'mora'
+        primos_layer_name = 'primos'
         my_map = arcade.tilemap.read_tmx(map_name)
 
-        self.end_of_map = my_map.map_size.width * GRID_PIXEL_SIZE
-        #self.slime_list = arcade.tilemap.process_layer(my_map, slimes_layer_name, TILE_SCALING)
-        self.wall_list = arcade.tilemap.process_layer(map_object=my_map, layer_name=platforms_layer_name, scaling=TILE_SCALING, use_spatial_hash=True)
-        self.coin_list = arcade.tilemap.process_layer(my_map, coins_layer_name, TILE_SCALING)
+        if map_name == "maps/map_level_1.tmx":
+            self.slime_sprite.center_x = 1000
+            self.slime_sprite.center_y = 380
+            self.slime_sprite.change_x = 2
+            self.slime_list.append(self.slime_sprite)
 
+        self.end_of_map = my_map.map_size.width * GRID_PIXEL_SIZE
+        self.wall_list = arcade.tilemap.process_layer(my_map, platforms_layer_name, TILE_SCALING, use_spatial_hash=True)
+        self.mora_list = arcade.tilemap.process_layer(my_map, mora_layer_name, TILE_SCALING)
+        self.primos_list = arcade.tilemap.process_layer(my_map, primos_layer_name, TILE_SCALING)
         if my_map.background_color:
             arcade.set_background_color(my_map.background_color)
         self.physics_engine = arcade.PhysicsEnginePlatformer(self.player_sprite, self.wall_list, GRAVITY)
@@ -149,12 +159,21 @@ class SlimeImpact(arcade.View):
     def on_draw(self):
         arcade.start_render()
 
+        arcade.draw_lrwh_rectangle_textured(0, 0, 1600, 1280, self.background)
+
         self.wall_list.draw()
-        self.coin_list.draw()
+        self.mora_list.draw()
+        self.primos_list.draw()
         self.player_list.draw()
         self.chest_list.draw()
         self.slime_list.draw()
-    
+
+        mora_text = f"mora: {self.moras}"
+        arcade.draw_text(mora_text, 10 + self.view_left, 615 + self.view_bottom, arcade.csscolor.WHITE, 18)
+
+        primo_text = f"primogems: {self.primogems}"
+        arcade.draw_text(primo_text, 10 + self.view_left, 590 + self.view_bottom, arcade.csscolor.WHITE, 18)
+
     def on_update(self, delta_time):
         self.physics_engine.update()
         self.slime_list.update_animation()
@@ -165,13 +184,20 @@ class SlimeImpact(arcade.View):
             else:
                 self.player_sprite.can_jump = True
 
-            self.coin_list.update_animation(delta_time)
+            self.mora_list.update_animation(delta_time)
             self.player_list.update_animation(delta_time)
 
             self.slime_list.update()
-            coin_hit_list = arcade.check_for_collision_with_list(self.player_sprite, self.coin_list)
-            for coin in coin_hit_list:
-                coin.remove_from_sprite_lists()
+
+            mora_hit_list = arcade.check_for_collision_with_list(self.player_sprite, self.mora_list)
+            for mora in mora_hit_list:
+                mora.remove_from_sprite_lists()
+                self.moras += 1
+
+            primos_hit_list = arcade.check_for_collision_with_list(self.player_sprite, self.primos_list)
+            for primos in primos_hit_list:
+                primos.remove_from_sprite_lists()
+                self.primogems += 1
     
             changed_viewport = False
 
